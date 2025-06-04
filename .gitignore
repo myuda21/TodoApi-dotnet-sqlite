@@ -1,0 +1,74 @@
+## Build results
+bin/
+obj/
+
+## User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio Code settings
+.vscode/
+
+## Dotnet-specific
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## Package management
+packages/
+*.nupkg
+*.snupkg
+*.nuspec
+*.psmdcp
+
+# dotnet tool restore
+.dotnet-tools.json
+
+## Logs
+*.log
+
+## Database
+*.mdf
+*.ldf
+*.db
+*.sqlite
+
+## Secrets / sensitive config
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+## OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+## Rider IDE
+.idea/
+
+## JetBrains Rider
+*.sln.iml
+
+## Test results
+TestResults/
+
+## Others
+*.vs/
+*.coverage
+*.coveragexml
+*.testsettings
+*.vsmdi
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# Node modules (if using npm/yarn in wwwroot)
+node_modules/
