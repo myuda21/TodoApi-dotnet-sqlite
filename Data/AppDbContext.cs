@@ -10,5 +10,15 @@ namespace TODOAPI.Data
 
         public DbSet<User> Users => Set<User>();
         public DbSet<TodoItem> TodoItems => Set<TodoItem>();
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TodoItem>()
+                .HasOne(t => t.User)
+                .WithMany(u => u.TodoItems)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
+
