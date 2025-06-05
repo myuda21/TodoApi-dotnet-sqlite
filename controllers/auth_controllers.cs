@@ -26,11 +26,27 @@ namespace TODOAPI.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] User user)
         {
-            var existingUser = _context.Users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
+            var existingUser = _context.Users
+                .FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
+
             if (existingUser == null)
                 return Unauthorized("Username atau password salah");
 
+            // Simpan userId ke session
+            HttpContext.Session.SetInt32("UserId", existingUser.Id);
+
             return Ok("Login berhasil");
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return BadRequest("Belum login");
+
+            HttpContext.Session.Remove("UserId");
+            return Ok("Logout berhasil");
         }
     }
 }
