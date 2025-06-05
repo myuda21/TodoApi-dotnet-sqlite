@@ -10,6 +10,11 @@ builder.Services.AddSwaggerGen();
 // ✅ Tambahkan controller sebelum `Build()`
 builder.Services.AddControllers();
 
+// konfigurasi agar ASP.NET Core bisa menyimpan session
+builder.Services.AddDistributedMemoryCache();
+// Middleware routing
+builder.Services.AddSession();
+
 // Konfigurasi koneksi database
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -26,8 +31,11 @@ if (app.Environment.IsDevelopment())
 // Optional: redirect ke HTTPS
 // app.UseHttpsRedirection();
 
-// Middleware routing
 app.UseRouting();
+app.UseSession();
+app.UseAuthorization();
+
+
 
 // ✅ Tambahkan middleware untuk endpoint controller
 app.UseAuthorization();
@@ -57,8 +65,8 @@ app.MapGet("/weatherforecast", () =>
 
 // Dummy endpoint: /api/todo
 var todos = new List<string> { "Belajar .NET", "Ngoding Flutter" };
-app.MapGet("/api/todo", () => todos)
-   .WithName("GetTodoList");
+// app.MapGet("/api/todo", () => todos)
+//    .WithName("GetTodoList");
 
 app.Run();
 
