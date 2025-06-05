@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace TODOAPI.Models
 {
     public class TodoItem
@@ -7,6 +9,7 @@ namespace TODOAPI.Models
         public bool IsCompleted { get; set; }
 
         public int UserId { get; set; }
+        [JsonIgnore]
         public User? User { get; set; } // relasi ke user
     }
 }
