@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TODOAPI.Data;
 using TODOAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace TODOAPI.Controllers
 {
@@ -11,18 +10,32 @@ namespace TODOAPI.Controllers
     {
         private readonly AppDbContext _context;
 
-        public TodoController(AppDbContext context) => _context = context;
-
-        [HttpGet("{userId}")]
-        public IActionResult GetTodos(int userId)
+        public TodoController(AppDbContext context)
         {
-            var todos = _context.TodoItems.Where(t => t.UserId == userId).ToList();
+            _context = context;
+        }
+
+        // GET api/todo -> hanya todo milik user yang login
+        [HttpGet]
+        public IActionResult GetTodosForCurrentUser()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return Unauthorized("Silakan login dulu");
+
+            var todos = _context.TodoItems.Where(t => t.UserId == userId.Value).ToList();
             return Ok(todos);
         }
 
+        // POST api/todo -> buat todo baru untuk user login
         [HttpPost]
-        public IActionResult AddTodo(TodoItem todo)
+        public IActionResult AddTodo([FromBody] TodoItem todo)
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return Unauthorized("Silakan login dulu");
+
+            todo.UserId = userId.Value;
+
             _context.TodoItems.Add(todo);
             _context.SaveChanges();
             return Ok(todo);
